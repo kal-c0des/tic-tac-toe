@@ -25,7 +25,51 @@ const createGame = (player1, player2) => {
     }
   };
 
-  // TODO: Check for win (horizontal, vertical, diag up-right, diag down-right)
+  const checkForWin = (row, col) => {
+    // Check for horizontal
+    if (
+      board[row][0] === currentPlayer &&
+      board[row][1] === currentPlayer &&
+      board[row][2] === currentPlayer
+    ) {
+      updateGameStatus(`${currentPlayer.getName()} wins horizontally!`);
+      isGameActive = false;
+      return;
+    }
+
+    // Check for vertical
+    if (
+      board[0][col] === currentPlayer &&
+      board[1][col] === currentPlayer &&
+      board[2][col] === currentPlayer
+    ) {
+      updateGameStatus(`${currentPlayer.getName()} wins vertically!`);
+      isGameActive = false;
+      return;
+    }
+
+    // Check for diagonal - up to the right
+    if (
+      board[2][0] === currentPlayer &&
+      board[1][1] === currentPlayer &&
+      board[0][2] === currentPlayer
+    ) {
+      updateGameStatus(`${currentPlayer.getName()} wins diagonally!`);
+      isGameActive = false;
+      return;
+    }
+
+    // Check for diagonal - down to the right
+    if (
+      board[0][0] === currentPlayer &&
+      board[1][1] == currentPlayer &&
+      board[2][2] === currentPlayer
+    ) {
+      updateGameStatus(`${currentPlayer.getName()} wins diagonally!`);
+      isGameActive = false;
+      return;
+    }
+  };
 };
 
 // TODO: Cell clicks
