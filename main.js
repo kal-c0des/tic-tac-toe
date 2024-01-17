@@ -70,11 +70,39 @@ const createGame = (player1, player2) => {
       return;
     }
   };
-};
 
-// TODO: Cell clicks
-// TODO: Game Reset
-// TODO: Game Status - Message update
+  const handleCellClick = (row, col) => {
+    const cell = board[row][col];
+    if (cell !== null || !isGameActive) return;
+
+    board[row][col] = currentPlayer;
+    const box = document.getElementById(`cell-${row}-${col}`);
+    box.innerText = currentPlayer.getSymbol();
+    checkForWin(row, col);
+    checkForTie();
+    togglePlayer();
+    updateGameStatus(`${currentPlayer.getName()}'s turn`);
+  };
+
+  // Reset Game
+  const resetGame = (game) => {
+    board = new Array(ROWS).fill(null).map(() => new Array(COLS).fill(null));
+    currentPlayer = player1;
+    isGameActive = true;
+    updateGameStatus(`${currentPlayer.getName()}'s turn`);
+
+    gameBoard.innerText = "";
+    createBoard(game);
+  };
+
+  // Update Game Status
+  const updateGameStatus = (message) => {
+    if (!isGameActive) return;
+    gameStatus.innerText = message;
+  };
+
+  return { handleCellClick, resetGame };
+};
 
 // Create Board Function
 const createBoard = (game) => {
@@ -88,6 +116,16 @@ const createBoard = (game) => {
       gameBoard.appendChild(cell);
     }
   }
+};
+
+const createPlayer = (playerName, playerSymbol) => {
+  const name = playerName;
+  const symbol = playerSymbol;
+
+  const getName = () => name;
+  const getSymbol = () => symbol;
+
+  return { getName, getSymbol };
 };
 
 (function () {
